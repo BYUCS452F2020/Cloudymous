@@ -3,3 +3,11 @@ I love thinking about security and the all the intricacies of cryptography.\
 I've always been a big fan on solving puzzles and your project seems to most align with that desire.
 Your project also seems to actually align with the purposes of this class, which is a plus.
 If you want to contact me, my email is ryan.d.arnesen@gmail.com
+
+I would like to to fully help develop the secure back-end of the project, including assisiting in making design decisions that benifit security.
+I am also decently aware of C and have a good understanding of low level language.
+
+I have to comment on Business, Legal, and Technical so
+Business, I appreciate how there is no built in buisness pitch going on here, just research
+Legal, It is wise to not advertise something built by students as secure
+Technical, I'm quite flexible and can help with whatever is nessisary.
