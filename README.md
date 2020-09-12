@@ -4,7 +4,6 @@ A database that uses VRF (Verifiable Random Function) to store cryptographic com
 
 ## Team
 Jordan Jenkins and Ryan Arensen.
-We have room for one more. Especially if you enjoy developing solutions to security problems!
 
 ## SQL
 MySQL
