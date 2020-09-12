@@ -3,7 +3,8 @@
 A database that uses VRF (Verifiable Random Function) to store cryptographic commitments to sensitive user data (passwords, credit cards/bank account numbers, social security numbers, etc.) without storing any identifiable user information in plain sight (like legal names, usernames, email addresses, etc.). Users will find and retrieve their data using a private key saved on their device, rather than with identifiers saved to the database. That way, if the database is compromised, the malefactor won't have access to sensitive information like they did in the Sony breach or credit bureau breach of last decade. 
 
 ## Team
-I'm looking for one or two others to join the team. Especially if you enjoy developing solutions to security problems!
+Jordan Jenkins and Ryan Arensen.
+We have room for one more. Especially if you enjoy developing solutions to security problems!
 
 ## SQL
 MySQL
