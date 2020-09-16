@@ -19,6 +19,6 @@ No current plans to make this a business. I'm expecting this to be more of an op
 
 ## Technical
 Our priorities will be:
-- Choose client-side programming language
-- Choose server-side programming language with robust VRF/cryptographic libraries (C or Go could work)
+- Choose client-side programming language with robust VRF/cryptographic libraries (C or Go could work)
+- Choose server-side programming language with robust VRF/cryptographic libraries
 - Implement the MVP
