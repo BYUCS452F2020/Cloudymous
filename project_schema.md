@@ -1,4 +1,4 @@
-AuthTable(UserName, Password_E, Token)
+AuthTable(++UserName++, Password_E, Token)
 AuthTable has all of the authentication data, including usernames (which are strings), encrypted passwords(byte array), and authorization tokens (byte array). 
 This table is in 4th Normal Form because the non-key values Password_E and Token functionally depend only on the UserName, and there are no mult-value dependencies. 
 
