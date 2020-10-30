@@ -1,7 +1,13 @@
 #ifndef SIGNINPRESENTER
 #define SIGNINPRESENTER
-#include "shared/response.h"
+#include "responses.h"
 
-Response signInWithCredentials(char *uname, char *pswd);
+/*
+    Does the following:
+    1. Prepares a request struct.
+    2. Sends struct to server using internet communication code (/net folder).
+    3. Checks response and sends appropriate message for view to display.
+*/
+char* signInWithCredentials(char *uname, char *pswd);
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef RESPONSES_H
-#define RESPONSES_H
+#ifndef RESPONSES
+#define RESPONSES
 
 enum response_type { RegisterResp, LoginResp, LogoutResp, 
                     PostSSNResp, PostCCNResp, PostPasswordResp, 
