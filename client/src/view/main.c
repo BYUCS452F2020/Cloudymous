@@ -40,10 +40,8 @@ int main() {
             signin();
         }
         else if (strncmp("signup", input, SIGNUP_STRLEN) == 0) {
-
         }
         else if (strncmp("store", input, STORE_STRLEN) == 0) {
-
         }
         else if (strncmp("get", input, GET_STRLEN) == 0) {
         }
