@@ -2,20 +2,17 @@
 
 int main()
 {
-    char buff[256];
-    char buff2[256];
     Request request;
+    Response response;
     strcpy(request.data1, "test");
     strcpy(request.data2, "pass");
     request.requesttype = RegisterReq;
     Init();
-    if(Handle(request, buff) == 0)
+    if(Handle(request, &response) == 0)
     {
-        printf("success %s\n", buff);
+        printf("success %s\n", response.data1);
     }
     else
-        printf("fail %s\n", buff);
-    
-    
-    
+        printf("fail %s\n", response.data1);
+
 }

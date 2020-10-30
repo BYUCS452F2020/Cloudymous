@@ -1,0 +1,4 @@
+table drop success
+table created success
+added test
+added test faillog

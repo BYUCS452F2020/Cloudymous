@@ -1,35 +1,43 @@
+
 #include "AnnonServices.h"
-#include "requests.h"
+#include "../shared/requests.h"
+#include "../shared/responses.h"
+
 
 void Init()
 {
+    
+    FILE * log;
+    log = fopen("log.txt", "w");
+    fclose(log);
+    
     DropTables();
     InitTables();
 }
 
-int Handle(Request request, char* response)
+int Handle(Request request, Response* response)
 {
     switch (request.requesttype)
     {
     case RegisterReq:
-        if(RegisterService(response, request.data1, request.data2) == 0)
+        if(RegisterService(response->data1, request.data1, request.data2) == 0)
         {
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Register Failure\n");
+            strcpy(response->data1, "$FAIL$ Register Failure\n");
             return -1;
         }
         break;
     case LoginReq:
-        if(LoginService(response, request.data1, request.data2) == 0)
+        if(LoginService(response->data1, request.data1, request.data2) == 0)
         {
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Login Failure\n");
+            strcpy(response->data1, "$FAIL$ Login Failure\n");
             return -1;
         }
         break;
@@ -38,7 +46,7 @@ int Handle(Request request, char* response)
             return 0;
         else
         {
-            strcpy(response, "$FAIL$ Post SSN Failure\n");
+            strcpy(response->data1, "$FAIL$ Post SSN Failure\n");
         }
         break;
     case PostCCNReq:
@@ -46,7 +54,7 @@ int Handle(Request request, char* response)
             return 0;
         else
         {
-            strcpy(response, "$FAIL$ Post CCN Failure\n");
+            strcpy(response->data1, "$FAIL$ Post CCN Failure\n");
             return -1;
         }
         
@@ -56,113 +64,113 @@ int Handle(Request request, char* response)
             return 0;
         else
         {
-            strcpy(response, "$FAIL$ Post Password Failure\n");
+            strcpy(response->data1, "$FAIL$ Post Password Failure\n");
             return -1;
         }
         break;
     case GetSSNReq:
-        if(GetSSN(response, request.data1))
+        if(GetSSN(response->data1, request.data1))
         {
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Get SSN Failure\n");
+            strcpy(response->data1, "$FAIL$ Get SSN Failure\n");
             return -1;
         }
         
         break;
     case GetCCNReq:
-        if(GetCCN(response, request.data1))
+        if(GetCCN(response->data1, request.data1))
         {
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Get CCN Failure\n");
+            strcpy(response->data1, "$FAIL$ Get CCN Failure\n");
             return -1;
         }
         break;
     case GetPasswordReq:
-        if(GetPassword(response, request.data1))
+        if(GetPassword(response->data1, request.data1))
         {
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Get Password Failure\n");
+            strcpy(response->data1, "$FAIL$ Get Password Failure\n");
             return -1;
         }
         break;
     case DeleteAccountReq:
         if(DeleteAccountService(request.data1))
         {
-            strcpy(response, "account deleted\n");
+            strcpy(response->data1, "account deleted\n");
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Account Not Deleted Failure\n");
+            strcpy(response->data1, "$FAIL$ Account Not Deleted Failure\n");
             return -1;
         }
         break;
     case DeleteBatchReq:
         if(DeleteBatchService(request.data1))
         {
-            strcpy(response, "entries deleted\n");
+            strcpy(response->data1, "entries deleted\n");
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Entries Not Deleted Failure\n");
+            strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
             return -1;
         }
         break;
     case DeleteSSNReq:
         if(DeleteSSNService(request.data1))
         {
-            strcpy(response, "Entries Deleted\n");
+            strcpy(response->data1, "Entries Deleted\n");
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Entries Not Deleted Failure\n");
+            strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
             return -1;
         }
         break;
     case DeleteCCNReq:
         if(DeleteCCNService(request.data1))
         {
-            strcpy(response, "Entries Deleted\n");
+            strcpy(response->data1, "Entries Deleted\n");
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Entries Not Deleted Failure\n");
+            strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
             return -1;
         }
         break;
     case DeletePasswordReq:
         if(DeletePasswordService(request.data1))
         {
-            strcpy(response, "Entries Deleted\n");
+            strcpy(response->data1, "Entries Deleted\n");
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Entries Not Deleted Failure\n");
+            strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
             return -1;
         }
         break;
     case LogoutReq:
         if(Signout(request.data1) == 0)
         {
-            strcpy(response, "");
+            strcpy(response->data1, "");
             return 0;
         }
         else
         {
-            strcpy(response, "$FAIL$ Signout Failure Somehow\n");
+            strcpy(response->data1, "$FAIL$ Signout Failure Somehow\n");
             return -1;
         }
         break;
