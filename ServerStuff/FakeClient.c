@@ -15,14 +15,7 @@ int main()
     }
     else
         printf("fail %s\n", buff);
-    strcpy(request.data2, "passsss");
-    request.requesttype = LoginReq;
-    if(Handle(request, buff) == 0)
-        printf("success %s\n", buff);
-    else
-    {
-        printf("failure %s\n", buff);
-    }
+    
     
     
 }
