@@ -31,7 +31,7 @@ char* encrypt(char* username_e, char* username, char* salt);
 
 int PostSSN(char* ssn_e, char* auth);
 
-void PostCCN(char* ccn_e, char* auth);
+int PostCCN(char* ccn_e, char* auth);
 
 int PostPassword(char* password_e, char* auth);
 
@@ -52,5 +52,7 @@ int DeletePasswordService(char* auth);
 int DeleteBatchService(char* auth);
 
 int Signout(char* auth);
+
+void CloseLog();
 #endif
 

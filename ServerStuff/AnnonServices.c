@@ -5,23 +5,45 @@
 #include<time.h> 
 #include <unistd.h>
 
+
+static int logOpen = 0;
+
 static FILE * log;
+
+static int randomSeeded = 0;
+
+void setSeed()
+{
+    if(randomSeeded == 0)
+    {
+        time_t t;
+        srand((unsigned) time(&t));
+        randomSeeded = 1;
+    }
+}
 
 void initLog()
 {
-    if(log == NULL)
+    if(logOpen == 0)
     {
         log = fopen("log.txt", "a+");
+        logOpen = 1;
     }
+}
+
+void CloseLog()
+{
+    fclose(log);
 }
 
 void AuthMaker(char* auth)
 {
     char* chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$^&*-_=+";
-    srand(time(0));
+    setSeed();
+    
     for(int i = 0; i < 16; i++)
     {
-        auth[i] = chars[rand() % 74];
+        auth[i] = chars[rand() % 73];
     }
     auth[16] = '\0';
 }
@@ -200,6 +222,7 @@ void AddFailTable(char* username)
 
 int RegisterService(char* auth, char* username, char* password_e)
 {
+
     sqlite3_stmt *res;
     sqlite3* DB;
     AuthMaker(auth);
@@ -241,6 +264,7 @@ int RegisterService(char* auth, char* username, char* password_e)
 
 int LoginService(char* auth, char* username, char* password_e)
 {
+
     sqlite3_stmt *res;
     sqlite3* DB;
     char* sql = "SELECT COUNT(*) FROM account WHERE username = ? AND password_e = ?";
@@ -337,17 +361,21 @@ int LoginService(char* auth, char* username, char* password_e)
     
 }
 
-void authCheck(char* auth, char* username)
+int authCheck(char* auth, char* username)
 {
     sqlite3_stmt *res;
     sqlite3* DB;
-    char* sql = "SELECT username FROM account WHERE authtoken = ? ;";
+    strcpy(username,"");
+    fprintf(log, "attempting to login auth %s\n", auth);
+    char* sql = "SELECT username FROM account WHERE authtoken = ?;";
     int exit = 0;
     exit = sqlite3_open("test.db", &DB);
     if(exit != SQLITE_OK)
     {
         fprintf(log,  "Error connecting to table\n");
-        return;
+        sqlite3_finalize(res);
+        sqlite3_close(DB);
+        return -1;
     }
     
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
@@ -358,7 +386,9 @@ void authCheck(char* auth, char* username)
     else
     {
         fprintf(log,  "bad auth bind %s\n", sqlite3_errmsg(DB));
-        return;
+        sqlite3_finalize(res);
+        sqlite3_close(DB);
+        return -1;
     }
     int step = sqlite3_step(res);
     if (step == SQLITE_ROW) {
@@ -369,10 +399,14 @@ void authCheck(char* auth, char* username)
     else
         {
             fprintf(log,  "bad auth\n");
+            sqlite3_finalize(res);
+            sqlite3_close(DB);
+            return -1;
         }
     
     sqlite3_finalize(res);
     sqlite3_close(DB);
+    return 0;
 }
 
 char* encrypt(char* username_e, char* username, char* salt)
@@ -382,6 +416,7 @@ char* encrypt(char* username_e, char* username, char* salt)
 
 int PostSSN(char* ssn_e, char* auth)
 {
+
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
@@ -430,15 +465,16 @@ int PostSSN(char* ssn_e, char* auth)
 
 }
 
-void PostCCN(char* ccn_e, char* auth)
+int PostCCN(char* ccn_e, char* auth)
 {
+
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
-        return;
+        return -1;
     }
     fprintf(log, "%s\n", username);
     
@@ -463,9 +499,11 @@ void PostCCN(char* ccn_e, char* auth)
     else
     {
         fprintf(log,  "Error adding ssn %s\n",  sqlite3_errmsg(DB));
+        return -1;
     }
     if (sqlite3_step(res) != SQLITE_DONE) {
         fprintf(log,  "Error adding ssn %s\n",  sqlite3_errmsg(DB));
+        return -1;
     }
     else
     {
@@ -473,11 +511,13 @@ void PostCCN(char* ccn_e, char* auth)
     }
     free(username);
     sqlite3_close(DB);
+    return 0;
 
 }
 
 int PostPassword(char* password_e, char* auth)
 {
+
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
@@ -528,6 +568,7 @@ int PostPassword(char* password_e, char* auth)
 
 int GetSSN(char* results, char* auth)
 {
+
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
@@ -538,7 +579,7 @@ int GetSSN(char* results, char* auth)
     }
     sqlite3_stmt *res;
     sqlite3* DB;
-    char* sql = "SELECT DISTINCT ssn_e FROM ccn WHERE username_e = ?";
+    char* sql = "SELECT DISTINCT ssn_e FROM ssn WHERE username_e = ?";
     int exit = 0;
     exit = sqlite3_open("test.db", &DB);
     if(exit != SQLITE_OK)
@@ -585,6 +626,7 @@ int GetSSN(char* results, char* auth)
 
 int GetCCN(char* results, char* auth)
 {
+
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
@@ -642,12 +684,13 @@ int GetCCN(char* results, char* auth)
 
 int GetPassword(char* results, char* auth)
 {
+
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
     if(strcmp(username, "") == 0)
     {
-fprintf(log, "Bad authToken\n");
+        fprintf(log, "Bad authToken\n");
         return 0;
     }
     sqlite3_stmt *res;
@@ -699,6 +742,7 @@ fprintf(log, "Bad authToken\n");
 
 int DeleteCCNService(char* auth)
 {
+
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
@@ -740,6 +784,7 @@ int DeleteCCNService(char* auth)
 
 int DeleteSSNService(char* auth)
 {
+
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
@@ -748,7 +793,7 @@ int DeleteSSNService(char* auth)
         fprintf(log, "Bad authToken\n");
         return -1;
     }
-fprintf(log, "%s\n", username);
+    fprintf(log, "%s\n", username);
     sqlite3_stmt *res;
     sqlite3* DB;
     char* sql = "DELETE FROM ssn WHERE  username_e = ?";
@@ -782,6 +827,7 @@ fprintf(log, "%s\n", username);
 
 int DeletePasswordService(char* auth)
 {
+
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
@@ -845,6 +891,7 @@ int DeleteBatchService(char* auth)
 
 int DeleteAccountService(char* auth)
 {
+
     if(DeleteBatchService(auth) != 0)
     {
         return -1;
@@ -912,6 +959,7 @@ int DeleteAccountService(char* auth)
 
 int Signout(char* auth)
 {
+
     sqlite3* DB;
     sqlite3_stmt *res;
     int exit = 0;

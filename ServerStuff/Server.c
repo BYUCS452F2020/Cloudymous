@@ -7,12 +7,15 @@
 void Init()
 {
     
+    InitTables();
+}
+
+void Drop()
+{
     FILE * log;
     log = fopen("log.txt", "w");
     fclose(log);
-    
     DropTables();
-    InitTables();
 }
 
 int Handle(Request request, Response* response)
@@ -59,7 +62,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case PostCCNReq:
-        if(PostSSN(request.data1, request.authtoken) == 0)
+        if(PostCCN(request.data1, request.authtoken) == 0)
         {
             response->responsetype = PostCCNResp;
             return 0;
@@ -86,7 +89,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case GetSSNReq:
-        if(GetSSN(response->data1, request.data1))
+        if(!GetSSN(response->data1, request.authtoken))
         {
             response->responsetype = GetSSNResp;
             return 0;
@@ -100,7 +103,7 @@ int Handle(Request request, Response* response)
         
         break;
     case GetCCNReq:
-        if(GetCCN(response->data1, request.data1))
+        if(!GetCCN(response->data1, request.authtoken))
         {
             response->responsetype = GetCCNResp;
             return 0;
@@ -113,7 +116,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case GetPasswordReq:
-        if(GetPassword(response->data1, request.data1))
+        if(!GetPassword(response->data1, request.authtoken))
         {
             response->responsetype = GetPasswordResp;
             return 0;
@@ -126,7 +129,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case DeleteAccountReq:
-        if(DeleteAccountService(request.data1))
+        if(!DeleteAccountService(request.authtoken))
         {
             response->responsetype = DeleteAccountResp;
             strcpy(response->data1, "account deleted\n");
@@ -140,7 +143,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case DeleteBatchReq:
-        if(DeleteBatchService(request.data1))
+        if(!DeleteBatchService(request.authtoken))
         {
             response->responsetype = DeleteBatchResp;
             strcpy(response->data1, "entries deleted\n");
@@ -154,7 +157,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case DeleteSSNReq:
-        if(DeleteSSNService(request.data1))
+        if(!DeleteSSNService(request.authtoken))
         {
             strcpy(response->data1, "Entries Deleted\n");
             return 0;
@@ -167,7 +170,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case DeleteCCNReq:
-        if(DeleteCCNService(request.data1))
+        if(!DeleteCCNService(request.authtoken))
         {
             response->responsetype = DeleteCCNResp;
             strcpy(response->data1, "Entries Deleted\n");
@@ -181,7 +184,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case DeletePasswordReq:
-        if(DeletePasswordService(request.data1))
+        if(!DeletePasswordService(request.authtoken))
         {
             response->responsetype = DeletePasswordResp;
             strcpy(response->data1, "Entries Deleted\n");
@@ -195,7 +198,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case LogoutReq:
-        if(Signout(request.data1) == 0)
+        if(Signout(request.authtoken) == 0)
         {
             response->responsetype = LogoutResp;
             strcpy(response->data1, "");
