@@ -21,15 +21,15 @@ void ClearFail(char* username, sqlite3 *DB);
 
 void AddFailTable(char* username);
 
-void RegisterService(char* auth, char* username, char* password_e);
+int RegisterService(char* auth, char* username, char* password_e);
 
-void LoginService(char* auth, char* username, char* password_e);
+int LoginService(char* auth, char* username, char* password_e);
 
 void authCheck(char* auth, char* username);
 
 char* encrypt(char* username_e, char* username, char* salt);
 
-void PostSSN(char* ssn_e, char* auth);
+int PostSSN(char* ssn_e, char* auth);
 
 void PostCCN(char* ccn_e, char* auth);
 
