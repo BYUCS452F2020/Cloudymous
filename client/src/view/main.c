@@ -37,7 +37,7 @@ int main() {
 
     while (strncmp("exit", input, EXIT_STRLEN) != 0) {
         if (strncmp("signin", input, SIGNIN_STRLEN) == 0) {
-            
+            signin();
         }
         else if (strncmp("signup", input, SIGNUP_STRLEN) == 0) {
 
