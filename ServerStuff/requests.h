@@ -2,7 +2,7 @@
 #define REQUESTS_H 
 enum request_type {RegisterReq, LoginReq, PostSSNReq, PostCCNReq, PostPasswordReq, GetSSNReq, GetCCNReq,
                         GetPasswordReq, DeleteAccountReq, DeleteBatchReq, DeleteSSNReq, DeleteCCNReq,
-                        DeletePasswordReq};
+                        DeletePasswordReq, LogoutReq};
 
 typedef struct
 {

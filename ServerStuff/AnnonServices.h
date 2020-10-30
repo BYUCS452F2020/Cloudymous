@@ -33,12 +33,24 @@ int PostSSN(char* ssn_e, char* auth);
 
 void PostCCN(char* ccn_e, char* auth);
 
-void PostPassword(char* password_e, char* auth);
+int PostPassword(char* password_e, char* auth);
 
 int GetSSN(char* results, char* auth);
 
 int GetCCN(char* results, char* auth);
 
 int GetPassword(char* results, char* auth);
+
+int DeleteAccountService(char* auth);
+
+int DeleteCCNService(char* auth);
+
+int DeleteSSNService(char* auth);
+
+int DeletePasswordService(char* auth);
+
+int DeleteBatchService(char* auth);
+
+int Signout(char* auth);
 #endif
 

@@ -14,6 +14,6 @@ AnnonServices.o:
 	
 
 clean: 
-	rm -f FakeClient AnnonServices.o Server.o FakeClient.o
+	rm -f FakeClient AnnonServices.o Server.o FakeClient.o log.txt
  
  
