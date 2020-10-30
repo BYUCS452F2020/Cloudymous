@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include "signin.h"
+#include "signin-view.h"
 
 #define MAX_UNAME 65
 #define MAX_PSWD 65

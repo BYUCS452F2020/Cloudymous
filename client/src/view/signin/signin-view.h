@@ -1,5 +1,5 @@
-#ifndef SIGNIN
-#define SIGNIN
+#ifndef SIGNIN-VIEW
+#define SIGNIN-VIEW
 
 void getUsername();
 char *getPassword();
