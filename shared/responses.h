@@ -4,7 +4,8 @@
 enum response_type { RegisterResp, LoginResp, LogoutResp, 
                     PostSSNResp, PostCCNResp, PostPasswordResp, 
                     GetSSNResp, GetCCNResp, GetPasswordResp, 
-                    DeleteAccountResp, DeleteBatchResp, DeleteSSNResp, DeleteCCNResp, DeletePasswordResp};
+                    DeleteAccountResp, DeleteBatchResp, DeleteSSNResp, DeleteCCNResp, DeletePasswordResp,
+                    ErrorResp};
 
 typedef struct
 {
