@@ -1,3 +1,4 @@
+# Refer to https://www.cs.colby.edu/maxwell/courses/tutorials/maketutor/
 IDIR =../include
 CC = gcc
 CFLAGS = -g -I $(IDIR)
