@@ -24,7 +24,7 @@ void signin() {
     getUsername(uname);
     char *pswd = getPassword();
     char *msg = signInWithCredentials(uname, pswd);
-    if (strcmp("\tSign-in Successful\n", msg) != 0) {
+    if (strcmp("Sign-in Successful\n\n", msg) != 0) {
         fprintf(stderr, "%s", msg);
     }
     else {

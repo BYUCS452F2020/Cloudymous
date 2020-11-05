@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "signin-presenter.h"
-#include "requests.h"
+#include "../../shared/requests.h"
 
 char* signInWithCredentials(char *uname, char *pswd) {
     Request *req = malloc(sizeof(Request));
@@ -11,7 +11,7 @@ char* signInWithCredentials(char *uname, char *pswd) {
     Response *resp = malloc(sizeof(Response));
     // Call a communicator from the net folder
     // Check response
-    char *msg = "\tSign-in Successful\n";
+    char *msg = "Sign-in Successful\n\n";
     free(resp);
     free(req); // Server should free this struct
     return msg;

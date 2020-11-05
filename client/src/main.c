@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "signin/signin-view.h"
+#include "print-menu.h"
+#include "signin-view.h"
 
 #define MAXINPUT 11
 #define SIGNIN_STRLEN 6
@@ -51,7 +52,12 @@ int main() {
         }
         else if (strncmp("signout", input, SIGNOUT_STRLEN) == 0) {
         }
-        printMenuAndWait(input);
+        else {
+            printMenuAndWait(input);
+        }
+        printf("Cloudymous> ");
+        fgets(input, MAXINPUT, stdin);
+        printf("\n");
     }
 
     printf("\n\tExiting Cloudymous\n");

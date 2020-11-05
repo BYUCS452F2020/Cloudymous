@@ -1,7 +1,7 @@
 #ifndef SIGNINVIEW
 #define SIGNINVIEW
 
-void getUsername();
+void getUsername(char *uname);
 char *getPassword();
 void signin();
 
