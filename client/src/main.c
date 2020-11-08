@@ -60,7 +60,7 @@ int main() {
         printf("\n");
     }
 
-    printf("\n\tExiting Cloudymous\n");
+    printf("Exiting Cloudymous\n");
     
     return 0;
 }

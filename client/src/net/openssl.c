@@ -13,7 +13,8 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <arpa/inet.h>
-// On Debian/Ubuntu, install package libssl-dev with apt to access ssl.h.
+// RECOMMENDED INSTALL: Install with vcpkg (find instructions on VSCode website)
+// ALTERNATE: On Debian/Ubuntu, install package libssl-dev with apt to access ssl.h.
 #include <openssl/ssl.h>
 
 #define MAXBUF  1024
