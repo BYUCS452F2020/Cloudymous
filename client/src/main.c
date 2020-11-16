@@ -27,6 +27,8 @@ void printMenuAndWait(char *buf) {
     \tsignout - Signs out the user\n\
     \texit - Terminates this client\n\
     \thelp - Prints this list of commands\n\nCloudymous> ");
+    // More secure to use than gets(); input limit prevents buffer overflow,
+    // as long as the input limit is not larger than the buffer size.
     fgets(buf, MAXINPUT, stdin);
     printf("\n");
 }

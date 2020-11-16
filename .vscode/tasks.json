@@ -8,6 +8,8 @@
 			"args": [
 				"-g",
 				"${file}",
+				"-lssl",
+				"-lcrypto",
 				"-o",
 				"${fileDirname}/${fileBasenameNoExtension}"
 			],

@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     Init();
     Request request;
     Response response;
-    FILE * authFile;
+    FILE* authFile;
     char auth[17];
     request.requesttype = ParseRequestType(argv[1]);
     switch (request.requesttype)

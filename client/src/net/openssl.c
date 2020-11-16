@@ -17,7 +17,7 @@
 // ALTERNATE: On Debian/Ubuntu, install package libssl-dev with apt to access ssl.h.
 #include <openssl/ssl.h>
 
-#define MAXBUF  1024
+#define MAXBUF 1024
 #define MSG "GET /index.html HTTP/1.0\r\n\r\n"
 
 int main(int argc, char *argv[])

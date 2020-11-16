@@ -1,5 +1,5 @@
-#ifndef SIGNINPRESENTER
-#define SIGNINPRESENTER
+#ifndef SIGNIN_PRESENTER
+#define SIGNIN_PRESENTER
 #include "../../shared/responses.h"
 
 /*
@@ -8,6 +8,6 @@
     2. Sends struct to server using internet communication code (/net folder).
     3. Checks response and sends appropriate message for view to display.
 */
-char* signInWithCredentials(char *uname, char *pswd);
+char* signInWithCredentials(char* uname, char* pswd);
 
 #endif
