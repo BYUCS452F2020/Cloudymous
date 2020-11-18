@@ -5,10 +5,10 @@ CFLAGS = -g -I $(IDIR) -lssl -lcrypto
 
 ODIR=obj
 
-_DEPS = print-menu.h signin-view.h signin-presenter.h ../../shared/requests.h cloudy-crypto.h
+_DEPS = print-menu.h signin-view.h signin-presenter.h ../../shared/requests.h cloudy-crypto.h client-communicator.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = signin-view.o signin-presenter.o main.o cloudy-crypto.o
+_OBJ = signin-view.o signin-presenter.o main.o cloudy-crypto.o client-communicator.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: %.c $(DEPS)

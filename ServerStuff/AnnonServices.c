@@ -1,10 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <sqlite3.h>
-#include<time.h> 
+#include <time.h> 
 #include <unistd.h>
-
+#include "AnnonServices.h"
 
 static int logOpen = 0;
 
@@ -262,7 +261,7 @@ int RegisterService(char* auth, char* username, char* password_e)
     return 0;
 }
 
-int LoginService(char* auth, char* username, char* password_e)
+int LoginService(char* auth, char* username, char* password_e, Response* resp)
 {
 
     sqlite3_stmt *res;
@@ -311,6 +310,12 @@ int LoginService(char* auth, char* username, char* password_e)
                 return -1;
             }
             ClearFail(username, DB);
+            /* Get authtoken, if exists */
+            int size = sqlite3_column_bytes(res, 3);
+            if (size > 0) {
+                const char* authtoken = sqlite3_column_text(res, 3);
+                strncpy(auth, authtoken, 16);
+            }
             sqlite3_finalize(res);
             //printf("user %s found\n", username);
         }
@@ -318,12 +323,12 @@ int LoginService(char* auth, char* username, char* password_e)
         
     }
     else
-        {
-            fprintf(log,  "user %s not found\n", username);
-            sqlite3_finalize(res);
-            sqlite3_close(DB);
-            return -1;
-        }
+    {
+        fprintf(log,  "user %s not found\n", username);
+        sqlite3_finalize(res);
+        sqlite3_close(DB);
+        return -1;
+    }
     
 
     //----------------------------------------------------------------------------------------------------------------------------

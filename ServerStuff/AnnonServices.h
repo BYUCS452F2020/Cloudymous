@@ -4,8 +4,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sqlite3.h>
-#include<time.h> 
+#include <time.h> 
 #include <unistd.h>
+#include "../shared/responses.h"
 
 void AuthMaker(char* auth);
 
@@ -23,9 +24,9 @@ void AddFailTable(char* username);
 
 int RegisterService(char* auth, char* username, char* password_e);
 
-int LoginService(char* auth, char* username, char* password_e);
+int LoginService(char* auth, char* username, char* password_e, Response *resp);
 
-void authCheck(char* auth, char* username);
+int authCheck(char* auth, char* username);
 
 char* encrypt(char* username_e, char* username, char* salt);
 

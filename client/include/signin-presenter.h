@@ -1,5 +1,8 @@
 #ifndef SIGNIN_PRESENTER
 #define SIGNIN_PRESENTER
+#include "cloudy-crypto.h"
+#include "client-communicator.h"
+#include "../../shared/requests.h"
 #include "../../shared/responses.h"
 
 /*

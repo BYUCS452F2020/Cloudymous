@@ -36,7 +36,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case LoginReq:
-        if(LoginService(response->data1, request.data1, request.data2) == 0)
+        if(LoginService(response->data1, request.data1, request.data2, response) == 0)
         {
             response->responsetype = LoginResp;
             return 0;
