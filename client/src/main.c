@@ -3,6 +3,7 @@
 #include <string.h>
 #include "print-menu.h"
 #include "signin-view.h"
+#include "Server.h"
 
 #define MAXINPUT 11
 #define SIGNIN_STRLEN 6
@@ -15,7 +16,7 @@
 #define EXIT_STRLEN 4
 #define HELP_STRLEN 4
 
-void printMenuAndWait(char *buf) {
+void printMenu() {
     printf("\
     \tPlease enter a command from the following menu:\n\
     \tsignin - Authenticates an existing user\n\
@@ -26,17 +27,19 @@ void printMenuAndWait(char *buf) {
     \tunregister - Deletes all content and account info\n\
     \tsignout - Signs out the user\n\
     \texit - Terminates this client\n\
-    \thelp - Prints this list of commands\n\nCloudymous> ");
-    // More secure to use than gets(); input limit prevents buffer overflow,
-    // as long as the input limit is not larger than the buffer size.
-    fgets(buf, MAXINPUT, stdin);
-    printf("\n");
+    \thelp - Prints this list of commands\n\n");
 }
 
 int main() {
+    Init();
     printf("\n\t\tWelcome to Cloudymous\n\n");
     char input[MAXINPUT];
-    printMenuAndWait(input);
+    printMenu();
+    printf("Cloudymous> ");
+    // More secure to use than gets(); input limit prevents buffer overflow,
+    // as long as the input limit is not larger than the buffer size.
+    fgets(input, MAXINPUT, stdin);
+    printf("\n");
 
     while (strncmp("exit", input, EXIT_STRLEN) != 0) {
         if (strncmp("signin", input, SIGNIN_STRLEN) == 0) {
@@ -54,12 +57,12 @@ int main() {
         }
         else if (strncmp("signout", input, SIGNOUT_STRLEN) == 0) {
         }
-        else {
-            printMenuAndWait(input);
+        else if (strncmp("help", input, HELP_STRLEN) == 0) {
+            printMenu();
         }
+        //memset(input, 0, MAXINPUT);
         printf("Cloudymous> ");
         fgets(input, MAXINPUT, stdin);
-        printf("\n");
     }
 
     printf("Exiting Cloudymous\n");

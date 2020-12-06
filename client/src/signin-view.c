@@ -23,7 +23,7 @@ void signin() {
     char uname[MAX_UNAME];
     getUsername(uname);
     char *pswd = getPassword();
-    char *msg = signInWithCredentials(uname, pswd);
+    char *msg = getLoginRespMsg(uname, pswd);
     if (strcmp("Sign-in Successful\n\n", msg) != 0) {
         fprintf(stderr, "%s", msg);
     }

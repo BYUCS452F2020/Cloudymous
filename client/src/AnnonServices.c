@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h> 
 #include <unistd.h>
+#include <sqlite3.h>
 #include "AnnonServices.h"
 
 static int logOpen = 0;
@@ -263,7 +264,6 @@ int RegisterService(char* auth, char* username, char* password_e)
 
 int LoginService(char* auth, char* username, char* password_e, Response* resp)
 {
-
     sqlite3_stmt *res;
     sqlite3* DB;
     char* sql = "SELECT COUNT(*) FROM account WHERE username = ? AND password_e = ?";
@@ -277,7 +277,7 @@ int LoginService(char* auth, char* username, char* password_e, Response* resp)
         return -1;
     }
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
-    if (exit == SQLITE_OK)
+    if (exit == (int)SQLITE_OK)
     {
         sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
         sqlite3_bind_text(res, 2, password_e, strlen(password_e), SQLITE_STATIC);

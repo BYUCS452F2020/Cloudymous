@@ -1,13 +1,12 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
-#include "signin-presenter.h"
+#include "register-presenter.h"
 #include "client-communicator.h"
 
-char* getLoginRespMsg(char *uname, char *pswd) {
+char* getRegisterRespMsg(char *uname, char *pswd) {
     //Request* req = malloc(sizeof(Request));
     Request req;
-    req.requesttype = LoginReq;
+    req.requesttype = RegisterReq;
     strncpy(req.data1, uname, sizeof(uname));
     strncpy(req.data2, pswd, sizeof(pswd));
     //Response *resp = malloc(sizeof(Response));
@@ -18,7 +17,7 @@ char* getLoginRespMsg(char *uname, char *pswd) {
     // Call a communicator
     connect();
     if (sendRequest(req, resp) < 0) {
-        return "Sign-in error\n";
+        return "Registration error\n";
     }
     // Check response
     char *msg = "Sign-in Successful\n\n";
