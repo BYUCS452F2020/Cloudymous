@@ -3,7 +3,7 @@
 #include "register-presenter.h"
 #include "client-communicator.h"
 
-char* getRegisterRespMsg(char *uname, char *pswd) {
+char* getRegisterRespMsg(char *uname, char *pswd, char* authtoken) {
     //Request* req = malloc(sizeof(Request));
     Request req;
     req.requesttype = RegisterReq;
@@ -20,7 +20,8 @@ char* getRegisterRespMsg(char *uname, char *pswd) {
         return "Registration error\n";
     }
     // Check response
-    char *msg = "Sign-in Successful\n\n";
+    char *msg = "Registration Successful\n\n";
+    strncpy(authtoken, resp.data1, 64);
     free(pswd_e);
     //free(resp);
     //free(req);

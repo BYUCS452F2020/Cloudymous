@@ -11,6 +11,6 @@
     2. Sends struct to server using internet communication code (/net folder).
     3. Checks response and sends appropriate message for view to display.
 */
-char* getRegisterRespMsg(char *uname, char *pswd);
+char* getRegisterRespMsg(char* uname, char* pswd, char* authtoken);
 
 #endif

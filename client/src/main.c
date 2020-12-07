@@ -3,9 +3,11 @@
 #include <string.h>
 #include "print-menu.h"
 #include "signin-view.h"
+#include "register-view.h"
 #include "Server.h"
 
 #define MAXINPUT 11
+#define AUTHTOKEN_SIZE 64
 #define SIGNIN_STRLEN 6
 #define SIGNUP_STRLEN 6
 #define STORE_STRLEN 5
@@ -32,6 +34,7 @@ void printMenu() {
 
 int main() {
     Init();
+    char* authtoken; // Malloc'd in views
     printf("\n\t\tWelcome to Cloudymous\n\n");
     char input[MAXINPUT];
     printMenu();
@@ -43,9 +46,11 @@ int main() {
 
     while (strncmp("exit", input, EXIT_STRLEN) != 0) {
         if (strncmp("signin", input, SIGNIN_STRLEN) == 0) {
-            signin();
+            authtoken = signin();
         }
         else if (strncmp("signup", input, SIGNUP_STRLEN) == 0) {
+            authtoken = signup();
+            printf("%s\n", authtoken);
         }
         else if (strncmp("store", input, STORE_STRLEN) == 0) {
         }
@@ -60,12 +65,12 @@ int main() {
         else if (strncmp("help", input, HELP_STRLEN) == 0) {
             printMenu();
         }
-        //memset(input, 0, MAXINPUT);
         printf("Cloudymous> ");
         fgets(input, MAXINPUT, stdin);
     }
 
     printf("Exiting Cloudymous\n");
+    free(authtoken);
     
     return 0;
 }

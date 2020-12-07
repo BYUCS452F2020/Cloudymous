@@ -22,9 +22,9 @@ void ClearFail(char* username, sqlite3 *DB);
 
 void AddFailTable(char* username);
 
-int RegisterService(char* auth, char* username, char* password_e);
+int RegisterService(char* auth, char* username, char* password_e, Response* resp);
 
-int LoginService(char* auth, char* username, char* password_e, Response *resp);
+int LoginService(char* auth, char* username, char* password_e, Response* resp);
 
 int authCheck(char* auth, char* username);
 

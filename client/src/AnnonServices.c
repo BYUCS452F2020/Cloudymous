@@ -220,7 +220,7 @@ void AddFailTable(char* username)
     sqlite3_close(DB);
 }
 
-int RegisterService(char* auth, char* username, char* password_e)
+int RegisterService(char* auth, char* username, char* password_e, Response* resp)
 {
 
     sqlite3_stmt *res;

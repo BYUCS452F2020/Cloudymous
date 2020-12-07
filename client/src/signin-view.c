@@ -19,15 +19,17 @@ char *getPassword() {
     return pswd;
 }
 
-void signin() {
+char* signin() {
     char uname[MAX_UNAME];
     getUsername(uname);
-    char *pswd = getPassword();
-    char *msg = getLoginRespMsg(uname, pswd);
+    char* pswd = getPassword();
+    char* authtoken = malloc(64);
+    char* msg = getLoginRespMsg(uname, pswd, authtoken);
     if (strcmp("Sign-in Successful\n\n", msg) != 0) {
         fprintf(stderr, "%s", msg);
     }
     else {
         printf("%s", msg);
     }
+    return authtoken;
 }

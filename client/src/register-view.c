@@ -16,6 +16,7 @@ void getNewUsername(char *uname) {
 char *getNewPassword() {
     char* pswd = "Replace me";
     char* pswdDup = "replace me";
+    char* authtoken = malloc(64);
     while (strncmp(pswd, pswdDup, MAX_PSWD) != 0) {
         printf("\tPassword rules:\n\t1. Must be >= 8 and <= 64 characters.\n\t2. Numbers and punctuation recommended.\n\n");
         pswd = getpass("Cloudymous> Enter new password: ");
@@ -25,15 +26,17 @@ char *getNewPassword() {
     return pswd;
 }
 
-void registerCredentials() {
+char* signup() {
     char uname[MAX_UNAME];
     getNewUsername(uname);
-    char *pswd = getNewPassword();
-    char *msg = getRegisterRespMsg(uname, pswd);
+    char* pswd = getNewPassword();
+    char* authtoken = malloc(64);
+    char* msg = getRegisterRespMsg(uname, pswd, authtoken);
     if (strcmp("Registration Successful\n\n", msg) != 0) {
         fprintf(stderr, "%s", msg);
     }
     else {
         printf("%s", msg);
     }
+    return authtoken;
 }

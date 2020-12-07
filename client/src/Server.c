@@ -23,7 +23,7 @@ int Handle(Request request, Response* response)
     switch (request.requesttype)
     {
     case RegisterReq:
-        if(RegisterService(response->data1, request.data1, request.data2) == 0)
+        if(RegisterService(response->data1, request.data1, request.data2, response) == 0)
         {
             response->responsetype = RegisterResp;
             return 0;
