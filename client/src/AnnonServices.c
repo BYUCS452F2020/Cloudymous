@@ -222,7 +222,6 @@ void AddFailTable(char* username)
 
 int RegisterService(char* auth, char* username, char* password_e, Response* resp)
 {
-
     sqlite3_stmt *res;
     sqlite3* DB;
     AuthMaker(auth);
@@ -248,6 +247,7 @@ int RegisterService(char* auth, char* username, char* password_e, Response* resp
         return -1;
     }
     if (sqlite3_step(res) != SQLITE_DONE) {
+        printf("Here\n");
         fprintf(log,  "Error adding user %s, %s\n", username,  sqlite3_errmsg(DB));
         return -1;
     }

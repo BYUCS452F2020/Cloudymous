@@ -7,7 +7,7 @@
 #include "Server.h"
 
 #define MAXINPUT 11
-#define AUTHTOKEN_SIZE 64
+#define AUTH_SIZE 17
 #define SIGNIN_STRLEN 6
 #define SIGNUP_STRLEN 6
 #define STORE_STRLEN 5
