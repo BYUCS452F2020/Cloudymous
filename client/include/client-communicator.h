@@ -5,6 +5,6 @@
 #include "../../shared/responses.h"
 
 void connect();
-int sendRequest(Request req, Response resp);
+int sendRequest(Request req, Response* resp);
 
 #endif

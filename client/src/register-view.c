@@ -28,11 +28,11 @@ char *getNewPassword() {
     return pswd;
 }
 
-char* signup() {
+void signup(char* authtoken) {
     char uname[MAX_UNAME];
     getNewUsername(uname);
     char* pswd = getNewPassword();
-    char* authtoken = malloc(AUTH_SIZE);
+    //char* authtoken = malloc(AUTH_SIZE);
     char* msg = getRegisterRespMsg(uname, pswd, authtoken);
     if (strcmp("Registration Successful\n\n", msg) != 0) {
         fprintf(stderr, "%s", msg);
@@ -40,5 +40,4 @@ char* signup() {
     else {
         printf("%s", msg);
     }
-    return authtoken;
 }

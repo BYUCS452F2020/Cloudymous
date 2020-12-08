@@ -247,7 +247,6 @@ int RegisterService(char* auth, char* username, char* password_e, Response* resp
         return -1;
     }
     if (sqlite3_step(res) != SQLITE_DONE) {
-        printf("Here\n");
         fprintf(log,  "Error adding user %s, %s\n", username,  sqlite3_errmsg(DB));
         return -1;
     }
@@ -313,7 +312,6 @@ int LoginService(char* auth, char* username, char* password_e, Response* resp)
             int size = sqlite3_column_bytes(res, 3);
             if (size > 0) {
                 const char* authtoken = sqlite3_column_text(res, 3);
-                strncpy(auth, authtoken, 16);
             }
             sqlite3_finalize(res);
             //printf("user %s found\n", username);
@@ -959,7 +957,6 @@ int DeleteAccountService(char* auth)
 
 int Signout(char* auth)
 {
-
     sqlite3* DB;
     sqlite3_stmt *res;
     int exit = 0;
@@ -974,6 +971,7 @@ int Signout(char* auth)
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
+        printf("%s\n", auth);
         sqlite3_bind_text(res, 1, auth, strlen(auth), SQLITE_STATIC);
     }
     else

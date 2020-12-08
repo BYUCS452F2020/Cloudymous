@@ -1,30 +1,25 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "register-presenter.h"
+#include "signout-presenter.h"
 #include "client-communicator.h"
 
 #define AUTH_SIZE 17
 
-char* getRegisterRespMsg(char *uname, char *pswd, char* authtoken) {
+char* getLogoutRespMsg(char* uname, char* authtoken) {
     Request req;
-    req.requesttype = RegisterReq;
+    req.requesttype = LogoutReq;
     strncpy(req.data1, uname, strlen(uname)+1);
-    strncpy(req.data2, pswd, strlen(pswd)+1);
     //Response *resp = malloc(sizeof(Response));
     Response resp;
-    // Encrypt password
-    // Remember to free the resources for pswd_e
-    char* pswd_e = hashWrapper(pswd);
     // Call a communicator
     connect();
     if (sendRequest(req, &resp) < 0) {
-        return "Registration error\n";
+        return "Sign-out error\n";
     }
     // Check response
-    char *msg = "Registration Successful\n\n";
+    char *msg = "Sign-out Successful\n\n";
     strncpy(authtoken, resp.data1, AUTH_SIZE);
-    free(pswd_e);
     //free(resp);
     return msg;
 }

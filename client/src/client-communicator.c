@@ -6,9 +6,9 @@ void connect() {
         out how to establish a TLS connection. */
 }
 
-int sendRequest(Request req, Response resp) {
+int sendRequest(Request req, Response* resp) {
     // Get data from server
     // Fill data in response
-    int ret = Handle(req, &resp);
+    int ret = Handle(req, resp);
     return ret;
 }

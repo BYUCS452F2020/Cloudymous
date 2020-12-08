@@ -21,11 +21,11 @@ char *getPassword() {
     return pswd;
 }
 
-char* signin() {
+void signin(char* authtoken) {
     char uname[MAX_UNAME];
     getUsername(uname);
     char* pswd = getPassword();
-    char* authtoken = malloc(AUTH_SIZE);
+    //char* authtoken = malloc(AUTH_SIZE);
     char* msg = getLoginRespMsg(uname, pswd, authtoken);
     if (strcmp("Sign-in Successful\n\n", msg) != 0) {
         fprintf(stderr, "%s", msg);
@@ -33,5 +33,4 @@ char* signin() {
     else {
         printf("%s", msg);
     }
-    return authtoken;
 }

@@ -3,6 +3,6 @@
 
 //void getUsername(char *uname);
 //char *getPassword();
-char* signup();
+void signup(char* authtoken);
 
 #endif
