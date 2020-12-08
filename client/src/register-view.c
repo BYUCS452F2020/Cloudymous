@@ -34,7 +34,7 @@ void signup(char* authtoken) {
     char* pswd = getNewPassword();
     //char* authtoken = malloc(AUTH_SIZE);
     char* msg = getRegisterRespMsg(uname, pswd, authtoken);
-    if (strcmp("Registration Successful\n\n", msg) != 0) {
+    if (strcmp("Registration Successful\n", msg) != 0) {
         fprintf(stderr, "%s", msg);
     }
     else {

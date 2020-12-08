@@ -15,7 +15,7 @@ void signout(char* authtoken) {
     uname[strlen(uname) - 1] = '\0';
 
     char* msg = getLogoutRespMsg(uname, authtoken);
-    if (strcmp("Sign-out Successful\n\n", msg) != 0) {
+    if (strcmp("Sign-out Successful\n", msg) != 0) {
         fprintf(stderr, "%s", msg);
     }
     else {

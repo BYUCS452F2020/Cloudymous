@@ -22,7 +22,7 @@ char* getLoginRespMsg(char* uname, char* pswd, char* authtoken) {
         return "Sign-in error\n";
     }
     // Check response
-    char *msg = "Sign-in Successful\n\n";
+    char *msg = "Sign-in Successful\n";
     strncpy(authtoken, resp.data1, AUTH_SIZE);
     free(pswd_e);
     //free(resp);

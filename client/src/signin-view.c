@@ -17,7 +17,6 @@ void getUsername(char *uname) {
 
 char *getPassword() {
     char *pswd = getpass("Cloudymous> Password: ");
-    printf("\n");
     return pswd;
 }
 
@@ -27,7 +26,7 @@ void signin(char* authtoken) {
     char* pswd = getPassword();
     //char* authtoken = malloc(AUTH_SIZE);
     char* msg = getLoginRespMsg(uname, pswd, authtoken);
-    if (strcmp("Sign-in Successful\n\n", msg) != 0) {
+    if (strcmp("Sign-in Successful\n", msg) != 0) {
         fprintf(stderr, "%s", msg);
     }
     else {

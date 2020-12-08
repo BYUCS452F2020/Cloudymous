@@ -18,7 +18,7 @@ char* getLogoutRespMsg(char* uname, char* authtoken) {
         return "Sign-out error\n";
     }
     // Check response
-    char *msg = "Sign-out Successful\n\n";
+    char *msg = "Sign-out Successful\n";
     strncpy(authtoken, resp.data1, AUTH_SIZE);
     //free(resp);
     return msg;

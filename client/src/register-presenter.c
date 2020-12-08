@@ -22,7 +22,7 @@ char* getRegisterRespMsg(char *uname, char *pswd, char* authtoken) {
         return "Registration error\n";
     }
     // Check response
-    char *msg = "Registration Successful\n\n";
+    char *msg = "Registration Successful\n";
     strncpy(authtoken, resp.data1, AUTH_SIZE);
     free(pswd_e);
     //free(resp);
