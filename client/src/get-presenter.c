@@ -60,11 +60,12 @@ char* getGetRespMsg(char* authtoken, char* itemtype) {
     // Check response
     unsigned char decrypted[4098]={};
     int decrypted_length = private_decrypt(resp.data1,256,privateKey,decrypted);
-
-    char *msg = "Download Successful: ";
-    printf("About to strcat %d bytes\n", decrypted_length);
-    strcat(msg, decrypted);
-    strcat(msg, "\n");
+    //printf("%ld => %d\n", strlen(resp.data1), decrypted_length);
+    char *msg = "Download Successful\n";
+    //printf("About to strcat %d bytes\n", decrypted_length);
+    //strcat(msg, decrypted);
+    //char* endline = "\n";
+    //strcat(msg, endline);
     //strncpy(authtoken, resp.data1, AUTH_SIZE);
     return msg;
 }

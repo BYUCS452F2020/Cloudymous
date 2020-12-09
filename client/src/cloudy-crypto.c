@@ -19,7 +19,7 @@ char* hashWrapper(char* data) {
 char* commitmentWrapper(char* data) {
     return "replace with real cryptographic commitment";
 }
-
+/* http://hayageek.com/rsa-encryption-decryption-openssl-c/ */
 RSA * createRSA(const unsigned char * key, int public)
 {
     RSA *rsa= NULL;
