@@ -78,18 +78,20 @@ int Handle(Request request, Response* response)
     case PostPasswordReq:
         if(PostPassword(request.data1, request.authtoken) == 0)
         {
+            printf("Password posted\n");
             response->responsetype = PostPasswordResp;
             return 0;
         }
         else
         {
+            printf("Password not posted\n");
             response->responsetype = ErrorResp;
             strcpy(response->data1, "$FAIL$ Post Password Failure\n");
             return -1;
         }
         break;
     case GetSSNReq:
-        if(!GetSSN(response->data1, request.authtoken))
+        if(GetSSN(response->data1, request.authtoken))
         {
             response->responsetype = GetSSNResp;
             return 0;
@@ -103,7 +105,7 @@ int Handle(Request request, Response* response)
         
         break;
     case GetCCNReq:
-        if(!GetCCN(response->data1, request.authtoken))
+        if(GetCCN(response->data1, request.authtoken))
         {
             response->responsetype = GetCCNResp;
             return 0;
@@ -116,7 +118,7 @@ int Handle(Request request, Response* response)
         }
         break;
     case GetPasswordReq:
-        if(!GetPassword(response->data1, request.authtoken))
+        if(GetPassword(response->data1, request.authtoken))
         {
             response->responsetype = GetPasswordResp;
             return 0;
@@ -146,26 +148,26 @@ int Handle(Request request, Response* response)
         if(!DeleteBatchService(request.authtoken))
         {
             response->responsetype = DeleteBatchResp;
-            strcpy(response->data1, "entries deleted\n");
+            //strcpy(response->data1, "entries deleted\n");
             return 0;
         }
         else
         {
             response->responsetype = ErrorResp;
-            strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
+            //strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
             return -1;
         }
         break;
     case DeleteSSNReq:
         if(!DeleteSSNService(request.authtoken))
         {
-            strcpy(response->data1, "Entries Deleted\n");
+            //strcpy(response->data1, "Entries Deleted\n");
             return 0;
         }
         else
         {
             response->responsetype = ErrorResp;
-            strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
+            //strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
             return -1;
         }
         break;
@@ -173,13 +175,13 @@ int Handle(Request request, Response* response)
         if(!DeleteCCNService(request.authtoken))
         {
             response->responsetype = DeleteCCNResp;
-            strcpy(response->data1, "Entries Deleted\n");
+            //strcpy(response->data1, "Entries Deleted\n");
             return 0;
         }
         else
         {
             response->responsetype = ErrorResp;
-            strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
+            //strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
             return -1;
         }
         break;
@@ -187,13 +189,13 @@ int Handle(Request request, Response* response)
         if(!DeletePasswordService(request.authtoken))
         {
             response->responsetype = DeletePasswordResp;
-            strcpy(response->data1, "Entries Deleted\n");
+            //strcpy(response->data1, "Entries Deleted\n");
             return 0;
         }
         else
         {
             response->responsetype = ErrorResp;
-            strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
+            //strcpy(response->data1, "$FAIL$ Entries Not Deleted Failure\n");
             return -1;
         }
         break;

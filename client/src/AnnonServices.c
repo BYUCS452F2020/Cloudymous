@@ -77,7 +77,7 @@ int InitTables()
 { 
     initLog();
     sqlite3* DB;
-    char* sql = "CREATE TABLE IF NOT EXISTS ACCOUNT( USERNAME TEXT PRIMARY KEY NOT null, PASSWORD_E TEXT NOT null, AUTHTOKEN CHAR(16), TIMESTAMP INTEGER); \
+    char* sql = "CREATE TABLE IF NOT EXISTS ACCOUNT( USERNAME TEXT PRIMARY KEY NOT null, PASSWORD_E TEXT NOT null, AUTHTOKEN CHAR(17), TIMESTAMP INTEGER); \
                 Create TABLE IF NOT EXISTS PASSWORD(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, PASSWORD_E TEXT, USERNAME_E TEXT NOT NULL); \
                 CREATE TABLE IF NOT EXISTS SSN(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, SSN_E TEXT NOT NULL, USERNAME_E TEXT NOT NULL); \
                 CREATE TABLE IF NOT EXISTS CCN(ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, CCN_E TEXT NOT NULL, USERNAME_E TEXT NOT NULL); \
@@ -114,7 +114,7 @@ int CheckFailLog(char* username, sqlite3* DB)
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
     }
     else
     {
@@ -143,7 +143,7 @@ void AddFail(char* username, sqlite3 *DB)
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
     }
     else
     {
@@ -169,7 +169,7 @@ void ClearFail(char* username, sqlite3 *DB)
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
     }
     else
     {
@@ -202,7 +202,7 @@ void AddFailTable(char* username)
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
     }
     else
     {
@@ -237,17 +237,17 @@ int RegisterService(char* auth, char* username, char* password_e, Response* resp
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
-        sqlite3_bind_text(res, 2, password_e, strlen(password_e), SQLITE_STATIC);
-        sqlite3_bind_text(res, 3, auth, 16, SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, password_e, strlen(password_e)+1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 3, auth, strlen(auth)+1, SQLITE_STATIC);
     }
     else
     {
-        fprintf(log,  "Error adding user %s, %s\n", username,  sqlite3_errmsg(DB));
+        fprintf(log,  "Error adding user %s, %s\n", username, sqlite3_errmsg(DB));
         return -1;
     }
     if (sqlite3_step(res) != SQLITE_DONE) {
-        fprintf(log,  "Error adding user %s, %s\n", username,  sqlite3_errmsg(DB));
+        fprintf(log,  "Error adding user %s, %s\n", username, sqlite3_errmsg(DB));
         return -1;
     }
     else
@@ -278,12 +278,12 @@ int LoginService(char* auth, char* username, char* password_e, Response* resp)
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == (int)SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
-        sqlite3_bind_text(res, 2, password_e, strlen(password_e), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, password_e, strlen(password_e)+1, SQLITE_STATIC);
     }
     else
     {
-        fprintf(log,  "Error adding user %s, %s\n", username,  sqlite3_errmsg(DB));
+        fprintf(log,  "Error adding user %s, %s\n", username, sqlite3_errmsg(DB));
         sqlite3_close(DB);
         return -1;
     }
@@ -333,19 +333,19 @@ int LoginService(char* auth, char* username, char* password_e, Response* resp)
     exit = sqlite3_prepare_v2(DB, sql, -1, &res2, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res2, 1, auth, 16, SQLITE_STATIC);
-        sqlite3_bind_text(res2, 2, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res2, 1, auth, strlen(auth)+1, SQLITE_STATIC);
+        sqlite3_bind_text(res2, 2, username, strlen(username)+1, SQLITE_STATIC);
         
     }
     else
     {
-        fprintf(log,  "Error logging in %s, %s\n", username,  sqlite3_errmsg(DB));
+        fprintf(log,  "Error logging in %s, %s\n", username, sqlite3_errmsg(DB));
         sqlite3_finalize(res2);
         sqlite3_close(DB);
         return -1;
     }
     if (sqlite3_step(res2) != SQLITE_DONE) {
-        fprintf(log,  "Error loggin in %s, %s\n", username,  sqlite3_errmsg(DB));
+        fprintf(log,  "Error loggin in %s, %s\n", username, sqlite3_errmsg(DB));
         sqlite3_finalize(res2);
         sqlite3_close(DB);
         return -1;
@@ -375,32 +375,30 @@ int authCheck(char* auth, char* username)
         sqlite3_close(DB);
         return -1;
     }
-    
+
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, auth, 16, SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, auth, strlen(auth)+1, SQLITE_STATIC);
     }
     else
     {
-        fprintf(log,  "bad auth bind %s\n", sqlite3_errmsg(DB));
+        fprintf(log, "bad auth bind %s\n", sqlite3_errmsg(DB));
         sqlite3_finalize(res);
         sqlite3_close(DB);
         return -1;
     }
     int step = sqlite3_step(res);
     if (step == SQLITE_ROW) {
-        
         char* temp = (char*)sqlite3_column_text(res, 0);
         strcpy(username, temp);
     }
-    else
-        {
-            fprintf(log,  "bad auth\n");
-            sqlite3_finalize(res);
-            sqlite3_close(DB);
-            return -1;
-        }
+    else {
+        fprintf(log,  "bad auth\n");
+        sqlite3_finalize(res);
+        sqlite3_close(DB);
+        return -1;
+    }
     
     sqlite3_finalize(res);
     sqlite3_close(DB);
@@ -414,16 +412,16 @@ char* encrypt(char* username_e, char* username, char* salt)
 
 int PostSSN(char* ssn_e, char* auth)
 {
-
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return -1;
     }
-        fprintf(log, "%s\n", username);
+    fprintf(log, "%s\n", username);
     
     sqlite3_stmt *res;
     sqlite3* DB;
@@ -434,23 +432,26 @@ int PostSSN(char* ssn_e, char* auth)
     if(exit != SQLITE_OK)
     {
         fprintf(log,  "Error connecting to table\n");
+        free(username);
         return -1;
     }
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     char* username_e = encrypt(NULL, username, NULL);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, ssn_e, strlen(ssn_e), SQLITE_STATIC);
-        sqlite3_bind_text(res, 2, username_e, strlen(username_e), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, ssn_e, strlen(ssn_e)+1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, username_e, strlen(username_e)+1, SQLITE_STATIC);
         
     }
     else
     {
         fprintf(log,  "Error adding ssn %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     if (sqlite3_step(res) != SQLITE_DONE) {
         fprintf(log,  "Error adding ssn %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     else
@@ -472,6 +473,7 @@ int PostCCN(char* ccn_e, char* auth)
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return -1;
     }
     fprintf(log, "%s\n", username);
@@ -490,17 +492,19 @@ int PostCCN(char* ccn_e, char* auth)
     char* username_e = encrypt(NULL, username, NULL);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, ccn_e, strlen(ccn_e), SQLITE_STATIC);
-        sqlite3_bind_text(res, 2, username_e, strlen(username_e), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, ccn_e, strlen(ccn_e)+1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, username_e, strlen(username_e)+1, SQLITE_STATIC);
         
     }
     else
     {
         fprintf(log,  "Error adding ssn %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     if (sqlite3_step(res) != SQLITE_DONE) {
         fprintf(log,  "Error adding ssn %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     else
@@ -515,16 +519,16 @@ int PostCCN(char* ccn_e, char* auth)
 
 int PostPassword(char* password_e, char* auth)
 {
-
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return -1;
     }
-        fprintf(log, "%s\n", username);
+    fprintf(log, "%s\n", username);
     
     sqlite3_stmt *res;
     sqlite3* DB;
@@ -535,23 +539,25 @@ int PostPassword(char* password_e, char* auth)
     if(exit != SQLITE_OK)
     {
         fprintf(log,  "Error connecting to table\n");
+        free(username);
         return -1;
     }
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     char* username_e = encrypt(NULL, username, NULL);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, password_e, strlen(password_e), SQLITE_STATIC);
-        sqlite3_bind_text(res, 2, username_e, strlen(username_e), SQLITE_STATIC);
-        
+        sqlite3_bind_text(res, 1, password_e, strlen(password_e)+1, SQLITE_STATIC);
+        sqlite3_bind_text(res, 2, username_e, strlen(username_e)+1, SQLITE_STATIC);
     }
     else
     {
         fprintf(log,  "Error adding ssn %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     if (sqlite3_step(res) != SQLITE_DONE) {
         fprintf(log,  "Error adding ssn %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     else
@@ -561,7 +567,6 @@ int PostPassword(char* password_e, char* auth)
     free(username);
     sqlite3_close(DB);
     return 0;
-
 }
 
 int GetSSN(char* results, char* auth)
@@ -573,6 +578,7 @@ int GetSSN(char* results, char* auth)
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return 0;
     }
     sqlite3_stmt *res;
@@ -588,7 +594,7 @@ int GetSSN(char* results, char* auth)
     char* username_e = encrypt(NULL, username, NULL);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username_e, strlen(username_e), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username_e, strlen(username_e)+1, SQLITE_STATIC);
     }
     else
     {
@@ -599,6 +605,7 @@ int GetSSN(char* results, char* auth)
     
     if(step != SQLITE_ROW)
     {
+        free(username);
         return 0;
     }
     char buffer[64];
@@ -631,6 +638,7 @@ int GetCCN(char* results, char* auth)
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return 0;
     }
     sqlite3_stmt *res;
@@ -646,7 +654,7 @@ int GetCCN(char* results, char* auth)
     char* username_e = encrypt(NULL, username, NULL);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username_e, strlen(username_e), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username_e, strlen(username_e)+1, SQLITE_STATIC);
     }
     else
     {
@@ -657,6 +665,7 @@ int GetCCN(char* results, char* auth)
     
     if(step != SQLITE_ROW)
     {
+        free(username);
         return 0;
     }
     char buffer[64];
@@ -672,7 +681,6 @@ int GetCCN(char* results, char* auth)
             break;
         }
         
-        
     }
     strcpy(results, buf2);
     free(username);
@@ -682,13 +690,13 @@ int GetCCN(char* results, char* auth)
 
 int GetPassword(char* results, char* auth)
 {
-
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
     
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return 0;
     }
     sqlite3_stmt *res;
@@ -704,7 +712,7 @@ int GetPassword(char* results, char* auth)
     char* username_e = encrypt(NULL, username, NULL);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username_e, strlen(username_e), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username_e, strlen(username_e)+1, SQLITE_STATIC);
     }
     else
     {
@@ -715,6 +723,7 @@ int GetPassword(char* results, char* auth)
     
     if(step != SQLITE_ROW)
     {
+        free(username);
         return 0;
     }
     char buffer[64];
@@ -729,8 +738,6 @@ int GetPassword(char* results, char* auth)
         {
             break;
         }
-        
-        
     }
     strcpy(results, buf2);
     free(username);
@@ -747,6 +754,7 @@ int DeleteCCNService(char* auth)
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return -1;
     }
     sqlite3_stmt *res;
@@ -757,26 +765,30 @@ int DeleteCCNService(char* auth)
     if(exit != SQLITE_OK)
     {
         fprintf(log,  "Error connecting to table\n");
+        free(username);
         return -1;
     }
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
     }
     else
     {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
 
     if (sqlite3_step(res) != SQLITE_DONE) {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     fprintf(log, "deleated CCNS\n");
     sqlite3_finalize(res);
     sqlite3_close(DB);
+    free(username);
     return 0;
 }
 
@@ -789,6 +801,7 @@ int DeleteSSNService(char* auth)
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return -1;
     }
     fprintf(log, "%s\n", username);
@@ -800,70 +813,77 @@ int DeleteSSNService(char* auth)
     if(exit != SQLITE_OK)
     {
         fprintf(log,  "Error connecting to table\n");
+        free(username);
         return -1;
     }
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
     }
     else
     {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
 
     if (sqlite3_step(res) != SQLITE_DONE) {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     fprintf(log, "deleated SSNS\n");
     sqlite3_finalize(res);
     sqlite3_close(DB);
+    free(username);
     return 0;
 }
 
 int DeletePasswordService(char* auth)
 {
-
     char* username = (char*)malloc(sizeof(char) * 64);
     authCheck(auth, username);
-    
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return -1;
     }
     fprintf(log, "%s\n", username);
     sqlite3_stmt *res;
     sqlite3* DB;
-    char* sql = "DELETE FROM password WHERE  username_e = ?";
+    char* sql = "DELETE FROM password WHERE username_e = ?";
     int exit = 0;
     exit = sqlite3_open("test.db", &DB);
     if(exit != SQLITE_OK)
     {
         fprintf(log,  "Error connecting to table\n");
+        free(username);
         return -1;
     }
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
         
     }
     else
     {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
 
     if (sqlite3_step(res) != SQLITE_DONE) {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
-    fprintf(log, "deleated passwords\n");
+    fprintf(log, "deleted passwords\n");
     sqlite3_finalize(res);
     sqlite3_close(DB);
+    free(username);
     return 0;
 }
 
@@ -900,6 +920,7 @@ int DeleteAccountService(char* auth)
     if(strcmp(username, "") == 0)
     {
         fprintf(log, "Bad authToken\n");
+        free(username);
         return -1;
     }
     fprintf(log, "%s\n", username);
@@ -912,22 +933,25 @@ int DeleteAccountService(char* auth)
     if(exit != SQLITE_OK)
     {
         fprintf(log,  "Error connecting to table\n");
+        free(username);
         return -1;
     }
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
         
     }
     else
     {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
 
     if (sqlite3_step(res) != SQLITE_DONE) {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     fprintf(log, "deleated failedlog\n");
@@ -937,21 +961,24 @@ int DeleteAccountService(char* auth)
     exit = sqlite3_prepare_v2(DB, sql, -1, &res, 0);
     if (exit == SQLITE_OK)
     {
-        sqlite3_bind_text(res, 1, username, strlen(username), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, username, strlen(username)+1, SQLITE_STATIC);
     }
     else
     {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
 
     if (sqlite3_step(res) != SQLITE_DONE) {
         fprintf(log,  "Error deleting account: %s\n",  sqlite3_errmsg(DB));
+        free(username);
         return -1;
     }
     sqlite3_finalize(res);
     sqlite3_close(DB);
-    fprintf(log, "deleated account\n");
+    fprintf(log, "deleted account\n");
+    free(username);
     return 0;
 }
 
@@ -972,7 +999,7 @@ int Signout(char* auth)
     if (exit == SQLITE_OK)
     {
         printf("%s\n", auth);
-        sqlite3_bind_text(res, 1, auth, strlen(auth), SQLITE_STATIC);
+        sqlite3_bind_text(res, 1, auth, strlen(auth)+1, SQLITE_STATIC);
     }
     else
     {

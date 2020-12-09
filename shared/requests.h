@@ -7,7 +7,7 @@ enum request_type {RegisterReq, LoginReq, PostSSNReq, PostCCNReq, PostPasswordRe
 typedef struct
 {
     enum request_type requesttype;
-    char authtoken[16];
+    char authtoken[17]; // 16 chars + \0 = 17 chars
     char data1[64];
     char data2[64];
 }Request;

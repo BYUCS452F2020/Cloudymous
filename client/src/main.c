@@ -5,6 +5,9 @@
 #include "signin-view.h"
 #include "register-view.h"
 #include "signout-view.h"
+#include "delete-view.h"
+#include "upload-view.h"
+#include "get-view.h"
 #include "Server.h"
 
 #define MAXINPUT 11
@@ -24,7 +27,7 @@ void printMenu() {
     \tPlease enter a command from the following menu:\n\
     \tsignin - Authenticates an existing user\n\
     \tsignup - Creates new account\n\
-    \tstore - Uploads data to the cloud\n\
+    \tupload - Uploads data to the cloud\n\
     \tget - Retrieves data from the cloud\n\
     \tdelete - Deletes content determined by options\n\
     \tunregister - Deletes all content and account info\n\
@@ -52,11 +55,29 @@ int main() {
         else if (strncmp("signup", input, SIGNUP_STRLEN) == 0) {
             signup(authtoken);
         }
-        else if (strncmp("store", input, STORE_STRLEN) == 0) {
+        else if (strncmp("upload", input, STORE_STRLEN) == 0) {
+            if (strlen(authtoken) > 0) {
+                selectOptionToUpload(authtoken);
+            }
+            else {
+                printf("Not currently signed in\n");
+            }
         }
         else if (strncmp("get", input, GET_STRLEN) == 0) {
+            if (strlen(authtoken) > 0) {
+                selectOptionToGet(authtoken);
+            }
+            else {
+                printf("Not currently signed in\n");
+            }
         }
         else if (strncmp("delete", input, DEL_STRLEN) == 0) {
+            if (strlen(authtoken) > 0) {
+                selectOptionToDelete(authtoken);
+            }
+            else {
+                printf("Not currently signed in\n");
+            }
         }
         else if (strncmp("unregister", input, UNREG_STRLEN) == 0) {
         }
